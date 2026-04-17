@@ -1,23 +1,36 @@
+using Microsoft.EntityFrameworkCore;
+using Scalar.AspNetCore;
+using SmartAppointments.Application.Interfaces.Repositories;
+using SmartAppointments.Application.Interfaces.Services;
+using SmartAppointments.Application.Services;
+using SmartAppointments.Infrastructure.Data;
+using SmartAppointments.Infrastructure.Repositories;
+
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-
 builder.Services.AddControllers();
-// Learn more about configuring OpenAPI at https://aka.ms/aspnet/openapi
 builder.Services.AddOpenApi();
+
+builder.Services.AddScoped<IArchivoService, ArchivoService>();
+builder.Services.AddScoped<IArchivoRepository, ArchivoRepository>();
+
+builder.Services.AddDbContext<AppDbContext>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+app.UseHttpsRedirection();
+app.UseAuthorization();
+app.MapControllers();
+
 if (app.Environment.IsDevelopment())
 {
     app.MapOpenApi();
+    app.MapScalarApiReference(options =>
+    {
+        options.WithTitle("Api | Documentation")
+               .WithTheme(ScalarTheme.DeepSpace);
+    });
 }
-
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
-
-app.MapControllers();
 
 app.Run();
