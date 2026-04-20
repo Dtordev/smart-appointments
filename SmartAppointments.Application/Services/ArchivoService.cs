@@ -13,11 +13,16 @@ namespace SmartAppointments.Application.Services
             _repository = repository;
         }
 
-        public async Task<IEnumerable<GeneralesDTO>> Estados(int tipo)
+        public async Task<ApiResponse<IEnumerable<GeneralesDTO>>> Estados(int tipo)
         {
             var data = await _repository.Estados(tipo);
 
-            return data;
+            return new ApiResponse<IEnumerable<GeneralesDTO>>
+            {
+                Success = true,
+                Data = data,
+                Message = "Estados obtenidos correctamente"
+            };
         }
     }
 }

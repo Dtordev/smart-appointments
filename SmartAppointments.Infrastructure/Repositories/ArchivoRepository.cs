@@ -1,5 +1,4 @@
 ﻿using Dapper;
-using Microsoft.EntityFrameworkCore;
 using SmartAppointments.Application.DTOs.Common;
 using SmartAppointments.Application.Interfaces.Repositories;
 using SmartAppointments.Infrastructure.Data;
@@ -7,7 +6,7 @@ using System.Data;
 
 namespace SmartAppointments.Infrastructure.Repositories
 {
-    public class ArchivoRepository : IArchivoRepository
+    public class ArchivoRepository : BaseRepository, IArchivoRepository
     {
         private readonly AppDbContext _db;
 
@@ -18,10 +17,7 @@ namespace SmartAppointments.Infrastructure.Repositories
 
         public async Task<IEnumerable<GeneralesDTO>> Estados(int tipo)
         {
-            var connection = _db.Database.GetDbConnection();
-
-            if (connection.State == ConnectionState.Closed)
-                await connection.OpenAsync();
+            var connection = await GetConnection(_db);
 
             return await connection.QueryAsync<GeneralesDTO>(
                 "spTipoEstado_Estados",

@@ -4,6 +4,6 @@ namespace SmartAppointments.Application.Interfaces.Services
 {
     public interface IArchivoService
     {
-        Task<IEnumerable<GeneralesDTO>> Estados(int tipo);
+        Task<ApiResponse<IEnumerable<GeneralesDTO>>> Estados(int tipo);
     }
 }
