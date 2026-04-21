@@ -19,7 +19,7 @@ namespace SmartAppointments.Api.Controllers
         #region Generales
 
         [AllowAnonymous]
-        [HttpGet("Estados/{tipo}")]
+        [HttpGet("Estados")]
         public async Task<IActionResult> Estados(int tipo)
         {
             var result = await _service.Estados(tipo);
@@ -42,7 +42,7 @@ namespace SmartAppointments.Api.Controllers
             return FromResult(result);
         }
 
-        [HttpGet("ProfesionalyEntidad/{id_persona}")]
+        [HttpGet("ProfesionalyEntidad")]
         public async Task<IActionResult> ProfesionalyEntidad(int id_persona)
         {
             var result = await _service.ProfesionalyEntidad(id_persona);
