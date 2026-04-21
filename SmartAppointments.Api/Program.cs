@@ -1,4 +1,5 @@
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Scalar.AspNetCore;
 using SmartAppointments.Application.Interfaces.Repositories;
 using SmartAppointments.Application.Interfaces.Services;
@@ -16,6 +17,9 @@ builder.Services.AddScoped<IArchivoRepository, ArchivoRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("Sql")));
+
+builder.Services.AddDbContext<AppDbContextPro>(options =>
+    options.UseSqlServer(builder.Configuration.GetConnectionString("Sqlpro")));
 
 var app = builder.Build();
 
